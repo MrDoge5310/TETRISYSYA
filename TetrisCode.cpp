@@ -4,9 +4,6 @@
 #include "Header.h"
 #include "resource.h"
 
-
-
-
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nCmdShow)
 {
 	WNDCLASS MainClass = NewWindowClass((HBRUSH)COLOR_WINDOW, LoadCursor(NULL, IDC_ARROW), hInst, LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1)),
@@ -26,7 +23,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nC
 
 	return 0;
 }
-
 
 WNDCLASS NewWindowClass(HBRUSH bgcolor, HCURSOR cursor, HINSTANCE hInst, HICON icon, LPCWSTR name, WNDPROC procedure) {
 
@@ -48,10 +44,8 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		switch (wp) {
 		case StartButtonClicked:
 
-			while (!GameOver) {
-				Timer();
-				MainCycle();
-			}
+			int i = 0; //просто так что б не агрилось, потом реализую запуск цикла отсюда
+
 		}
 		break;
 
@@ -73,11 +67,34 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 	case WM_CREATE:
 		MainWndAddWidgets(hWnd);
+		readThread = CreateThread(NULL, 0, MainCycle, NULL, 0, NULL); // создание потока
+		break;
 
+	case WM_KEYDOWN:	//обработка нажатий
+		switch (LOWORD(wp))
+		{
+		case VK_LEFT: {
+			s1.Move(-50, 0, -50, 0);
+			break;
+		}
+		case VK_RIGHT: {
+			s1.Move(50, 0, 50, 0);
+			break;
+		}
+		case VK_DOWN: {
+			s1.Move(0, 50, 0, 50);
+			break;
+		}
+
+		default:
+			break;
+		}
 		break;
 
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		CloseHandle(readThread); //закрітие потока но что-то вроде оно не работает
+		ExitThread(0);
 		break;
 
 
@@ -94,23 +111,15 @@ void MainWndAddWidgets(HWND hWnd)
 	hTimer = CreateWindowA("static", "0", WS_VISIBLE | WS_CHILD | ES_LEFT, 600, 600, 100, 20, hWnd, NULL, NULL, NULL);
 }
 
-void MainCycle()
+DWORD WINAPI MainCycle(LPVOID lParameter)		//главный цикл
 {
-	s1.Move();
-	s1.FillRect(square);
-	RedrawWindow(hMainWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
+	while (!GameOver) {
+		s1.Move(0, 20, 0, 20);
+		s1.FillRect(square);
+		RedrawWindow(hMainWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
+		Sleep(250);
+	}
+
+	return 0;
 }
 
-void Timer()
-{
-		Sleep(1000);
-		timer++;
-
-		std::strstream s;
-		s << timer << "\x00";
-
-		SetWindowTextA(hTimer, s.str());
-
-		if (timer == 10)
-			GameOver = true;
-}

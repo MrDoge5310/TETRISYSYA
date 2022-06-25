@@ -8,6 +8,8 @@ HWND hMainWnd;
 HWND hChildWnd;
 HWND hTimer;
 
+HANDLE readThread;
+
 bool GameOver = false;
 bool colided = false;
 int timer = 0;
@@ -27,10 +29,12 @@ public:
 		x1 = X1;
 		y1 = Y1;
 	}
-	void Move()
+	void Move(int X2, int Y2, int X1, int Y1)
 	{
-		y1 += 20;
-		y2 += 20;
+		x1 += X1;
+		x2 += X2;
+		y1 += Y1;
+		y2 += Y2;
 
 	}
 
@@ -57,5 +61,4 @@ WNDCLASS NewWindowClass(HBRUSH bgcolor, HCURSOR cursor, HINSTANCE hInst, HICON i
 
 
 void MainWndAddWidgets(HWND hWnd);
-void Timer();
-void MainCycle();
+DWORD WINAPI MainCycle(LPVOID lParameter);
