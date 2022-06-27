@@ -57,10 +57,14 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		
 		RedrawWindow(hWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
 
-		square = s1.FillRect(square);
+		for (int i = 0; i < 4; i++)
+		{
+			square = Tfigure[i].FillRect(square); // тут по факту что и было раньше, только теперь через цикл рисуется каждый квадрат ффигурки
 
-		BeginPaint(hWnd, &ps1);
-		FillRect(ps.hdc, &square, Blue);
+			BeginPaint(hWnd, &ps1);
+			FillRect(ps.hdc, &square, Blue);
+			
+		}
 		EndPaint(hWnd, &ps1);
 
 		break;
@@ -74,15 +78,24 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		switch (LOWORD(wp))
 		{
 		case VK_LEFT: {
-			s1.Move(-50, 0, -50, 0);
+			for (int i = 0; i < 4; i++)
+			{
+				Tfigure[i].Move(-50, 0, -50, 0); // та же история что и в 62 строчке
+			}
 			break;
 		}
 		case VK_RIGHT: {
-			s1.Move(50, 0, 50, 0);
+			for (int i = 0; i < 4; i++)
+			{
+				Tfigure[i].Move(50, 0, 50, 0);
+			}
 			break;
 		}
 		case VK_DOWN: {
-			s1.Move(0, 50, 0, 50);
+			for (int i = 0; i < 4; i++)
+			{
+				Tfigure[i].Move(0, 50, 0, 50);
+			}
 			break;
 		}
 
@@ -114,8 +127,11 @@ void MainWndAddWidgets(HWND hWnd)
 DWORD WINAPI MainCycle(LPVOID lParameter)		//главный цикл
 {
 	while (!GameOver) {
-		s1.Move(0, 20, 0, 20);
-		s1.FillRect(square);
+		for (int i = 0; i < 4; i++)
+		{
+			Tfigure[i].Move(0, 20, 0, 20);
+			Tfigure[i].FillRect(square);
+		}
 		RedrawWindow(hMainWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
 		Sleep(250);
 	}
