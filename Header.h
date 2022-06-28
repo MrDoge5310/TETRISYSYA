@@ -65,4 +65,3 @@ WNDCLASS NewWindowClass(HBRUSH bgcolor, HCURSOR cursor, HINSTANCE hInst, HICON i
 
 
 void MainWndAddWidgets(HWND hWnd);
-DWORD WINAPI MainCycle(LPVOID lParameter);
