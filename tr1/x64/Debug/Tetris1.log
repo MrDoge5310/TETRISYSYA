@@ -1,0 +1,21 @@
+﻿  Main.cpp
+D:\Projects\tr1\Main.cpp(117,20): warning C4244: аргумент: преобразование "WPARAM" в "int", возможна потеря данных
+  Tetris.cpp
+  Создание кода...
+D:\Projects\tr1\Main.cpp(158): warning C4715: MainClassProcedure: значение возвращается не при всех путях выполнения
+Tetris.obj : error LNK2005: "struct HWND__ * hScoreControl" (?hScoreControl@@3PEAUHWND__@@EA) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct HWND__ * hMainWnd" (?hMainWnd@@3PEAUHWND__@@EA) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct HWND__ * hChildWnd" (?hChildWnd@@3PEAUHWND__@@EA) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct HWND__ * hTimer" (?hTimer@@3PEAUHWND__@@EA) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct tagRECT square" (?square@@3UtagRECT@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct tagRECT GamingField" (?GamingField@@3UtagRECT@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct tagPAINTSTRUCT ps" (?ps@@3UtagPAINTSTRUCT@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct tagPAINTSTRUCT ps1" (?ps1@@3UtagPAINTSTRUCT@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "class SquareClass s1" (?s1@@3VSquareClass@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "class SquareClass s2" (?s2@@3VSquareClass@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "class SquareClass s3" (?s3@@3VSquareClass@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "class SquareClass s4" (?s4@@3VSquareClass@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "class SquareClass * Tfigure" (?Tfigure@@3PAVSquareClass@@A) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct HBRUSH__ * Blue" (?Blue@@3PEAUHBRUSH__@@EA) уже определен в Main.obj
+Tetris.obj : error LNK2005: "struct HBRUSH__ * FieldBrush" (?FieldBrush@@3PEAUHBRUSH__@@EA) уже определен в Main.obj
+D:\Projects\tr1\x64\Debug\Tetris.exe : fatal error LNK1169: обнаружен многократно определенный символ - один или более
