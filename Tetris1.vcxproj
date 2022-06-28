@@ -143,7 +143,9 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="FiguresSet.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Tetris.cpp" />
+    <ClCompile Include="UIDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
@@ -151,6 +153,8 @@
     <ClInclude Include="FiguresSet.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Tetris.h" />
+    <ClInclude Include="UIDrawer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetris1.rc" />

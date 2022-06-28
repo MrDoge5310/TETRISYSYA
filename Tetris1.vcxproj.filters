@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Tetris.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
@@ -25,6 +25,12 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="FiguresSet.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Tetris.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="UIDrawer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,6 +48,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="FiguresSet.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Tetris.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="UIDrawer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

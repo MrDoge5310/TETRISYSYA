@@ -1,5 +1,0 @@
-﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Tetris1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Tetris.cpp
-C:\Users\ka3u6\Documents\Projects\TETRISYSYA\Tetris.cpp(138): warning C4715: 'MainClassProcedure': not all control paths return a value
-  Tetris1.vcxproj -> C:\Users\ka3u6\Documents\Projects\TETRISYSYA\x64\Debug\Tetris.exe
-C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(5385,5): warning MSB3061: Unable to delete file "C:\Users\ka3u6\Documents\Projects\TETRISYSYA\x64\Debug\Tetris1.exe". Access to the path 'C:\Users\ka3u6\Documents\Projects\TETRISYSYA\x64\Debug\Tetris1.exe' is denied.
