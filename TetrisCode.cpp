@@ -57,11 +57,12 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		
 		RedrawWindow(hWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
 
+		BeginPaint(hWnd, &ps1);
 		for (int i = 0; i < 4; i++)
 		{
 			square = Tfigure[i].FillRect(square); // тут по факту что и было раньше, только теперь через цикл рисуется каждый квадрат ффигурки
 
-			BeginPaint(hWnd, &ps1);
+			
 			FillRect(ps.hdc, &square, Blue);
 			
 		}
