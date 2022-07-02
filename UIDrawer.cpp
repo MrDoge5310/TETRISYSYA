@@ -7,7 +7,7 @@ UIDrawer::UIDrawer(HDC hdc, HWND hwnd, int blockPixels, int width, int height)
     _width = width;
     _height = height;
 
-    GetClientRect(hwnd, &_rect);
+    //GetClientRect(hwnd, &_rect);
 
     SaveDC(hdc);
 
@@ -21,17 +21,27 @@ UIDrawer::~UIDrawer()
 
 void UIDrawer::drawBlock(int x, int y, COLORREF color)
 {
+    
 }
 
 void UIDrawer::drawInterface()
 {
     HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
-    _rect.top = _height * 10;
-    _rect.left = _width * 10;
-    _rect.bottom = 0;
-    _rect.right = _width + 8;
+    //_rect.top = _height * 40;
+    //_rect.left = _width * 40;
+    //_rect.bottom = 60;
+    //_rect.right = _width + 8;
     FillRect(_hdc, &_rect, hBrush);
     DeleteObject(hBrush);
+}
+
+void UIDrawer::DrawTimer()
+{
+    //time++;
+    //wsprintf(timetext, TEXT("Time: %d"), time);
+    //DrawText(_hdc, timetext, 99999, &timerRect, DT_LEFT | DT_NOCLIP);
+
+    //SetWindowText(hTimer, timetext);s
 }
 
 void UIDrawer::drawGameOver()

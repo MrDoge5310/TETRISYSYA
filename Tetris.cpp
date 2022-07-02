@@ -8,6 +8,7 @@ Tetris::Tetris(UIDrawer& ui) : _ui(ui)
 
 Tetris::~Tetris()
 {
+
 }
 
 
@@ -24,11 +25,8 @@ bool Tetris::keyPress(int key)
 
     switch (key)
     {
-    case VK_UP:
-        //move down fast
-        break;
     case VK_DOWN:
-        //move down
+        //move down fast
         break;
     case VK_LEFT:
         //move left
@@ -36,7 +34,7 @@ bool Tetris::keyPress(int key)
     case VK_RIGHT:
         //move right
         break;
-    case VK_SPACE:
+    case VK_UP:
         //rotate
         break;
     case VK_PAUSE:
@@ -51,8 +49,17 @@ bool Tetris::keyPress(int key)
     return true;
 }
 
-void Tetris::timerUpdate()
+void Tetris::timerUpdate(HWND hWnd)
 {
+    //timertick+= 0.25;
+    //if (timertick == realtime) {
+        
+        //_ui.DrawTimer();
+
+        //realtime++;
+   //}
+    RedrawWindow(hWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
+
     if (_isPaused)
         return;
 }
