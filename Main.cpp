@@ -1,13 +1,12 @@
 #include <windows.h>
-#include<string>
-#include <strstream> //for std::strstream
+#include <string>
 #include "Header.h"
 #include "UIDrawer.h"
 #include "Tetris.h"
 #include "resource.h"
 
 
-const int PIXEL_IN_BLOCK = 20;  // One block size in pixels
+const int PIXEL_IN_BLOCK = 30;  // One block size in pixels
 const int SCREEN_WIDTH = 10;    // Game field width in blocks
 const int SCREEN_HEIGHT = 20;   // Game field height in blocks
 const int GAME_SPEED = 300;      // Game update speed in milliseconds
@@ -15,7 +14,7 @@ const int TIMER_ID = 1;
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nCmdShow)
 {
-	WNDCLASS MainClass = NewWindowClass(
+	WNDCLASSEX MainClass = NewWindowClass(
 		(HBRUSH)COLOR_WINDOW, 
 		LoadCursor(NULL, IDC_ARROW), 
 		hInst, 
@@ -23,11 +22,22 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nC
 		L"MainWndClass", 
 		MainClassProcedure);
 
-	if (!RegisterClassW(&MainClass)) { return -1; }
+	if (!RegisterClassEx(&MainClass)) { return -1; }
 
 	MSG MainMessage = { 0 };
 
-	hMainWnd = CreateWindow(L"MainWndClass", L"Tetris", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 300, 50, 850, 900, NULL, NULL, NULL, NULL);
+	hMainWnd = CreateWindow(L"MainWndClass", 
+		L"Tetris",
+		WS_MINIMIZEBOX | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT,
+		SCREEN_WIDTH * PIXEL_IN_BLOCK + 160,
+		SCREEN_HEIGHT * PIXEL_IN_BLOCK + 30,
+		NULL,
+		NULL,
+		hInst,
+		NULL);
+
+	ShowWindow(hMainWnd, nCmdShow);
+	UpdateWindow(hMainWnd);
 
 	while (GetMessage(&MainMessage, NULL, NULL, NULL))
 	{
@@ -38,10 +48,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nC
 	return 0;
 }
 
-WNDCLASS NewWindowClass(HBRUSH bgcolor, HCURSOR cursor, HINSTANCE hInst, HICON icon, LPCWSTR name, WNDPROC procedure) {
+WNDCLASSEX NewWindowClass(HBRUSH bgcolor, HCURSOR cursor, HINSTANCE hInst, HICON icon, LPCWSTR name, WNDPROC procedure) {
 
-	WNDCLASS NWC = { 0 };
+	WNDCLASSEX NWC = { 0 };
 
+	NWC.cbSize = sizeof(WNDCLASSEX);
+	NWC.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	NWC.hCursor = cursor;
 	NWC.hIcon = icon;
 	NWC.hInstance = hInst;
@@ -65,7 +77,7 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		hdc = GetDC(hWnd);
 		// init game logic
 		ui = new UIDrawer(hdc, hWnd, PIXEL_IN_BLOCK, SCREEN_WIDTH, SCREEN_HEIGHT);
-		tetris = new Tetris(*ui);
+		tetris = new Tetris(*ui, SCREEN_WIDTH, SCREEN_HEIGHT, GAME_SPEED);
 
 		SetTimer(hWnd, TIMER_ID, GAME_SPEED, NULL);
 
@@ -74,13 +86,6 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 	case WM_TIMER:
 		tetris->timerUpdate();
-		// temporary. Need to be moved into the Tetris class
-		for (int i = 0; i < 4; i++)
-		{
-			Tfigure[i].Move(0, 20, 0, 20);
-			Tfigure[i].FillRect(square);
-		}
-		RedrawWindow(hMainWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
 		break;
 
 	case WM_COMMAND:
@@ -94,23 +99,6 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		hdc = BeginPaint(hWnd, &ps);
 		tetris->repaint();
 		EndPaint(hWnd, &ps);
-
-		// move to Tetris class
-		BeginPaint(hWnd, &ps);
-		FillRect(ps.hdc, &GamingField, FieldBrush);
-		EndPaint(hWnd, &ps);
-		
-		RedrawWindow(hWnd, NULL, NULL, RDW_UPDATENOW | RDW_INVALIDATE);
-
-		BeginPaint(hWnd, &ps1);
-		for (int i = 0; i < 4; i++)
-		{
-			square = Tfigure[i].FillRect(square);
-			FillRect(ps.hdc, &square, Blue);
-			
-		}
-		EndPaint(hWnd, &ps1);
-
 		break;
 
 	case WM_KEYDOWN:
@@ -159,9 +147,14 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 void MainWndAddWidgets(HWND hWnd)
 {
-	CreateWindowA("button", "Start", WS_VISIBLE | WS_CHILD | BS_CENTER, 550, 720, 150, 80, hWnd, (HMENU)StartButtonClicked, NULL, NULL);
-	CreateWindowA("static", "Score:", WS_VISIBLE | WS_CHILD | ES_LEFT, 550, 670, 50, 20, hWnd, NULL, NULL, NULL);
-	hScoreControl = CreateWindowA("static", "0", WS_VISIBLE | WS_CHILD | ES_LEFT, 600, 670, 100, 20, hWnd, NULL, NULL, NULL);
-	CreateWindowA("static", "Time:", WS_VISIBLE | WS_CHILD | ES_LEFT, 550, 600, 50, 20, hWnd, NULL, NULL, NULL);
-	hTimer = CreateWindowA("static", "0", WS_VISIBLE | WS_CHILD | ES_LEFT, 600, 600, 100, 20, hWnd, NULL, NULL, NULL);
+	int startButtonWIDTH = 70;
+	int startButtonHEIGHT = 30;
+
+	CreateWindowA("button", "Start",
+		WS_VISIBLE | WS_CHILD | BS_CENTER, 
+		SCREEN_WIDTH * PIXEL_IN_BLOCK - startButtonWIDTH + 110,
+		SCREEN_HEIGHT * PIXEL_IN_BLOCK - startButtonHEIGHT - 30,
+		startButtonWIDTH,
+		startButtonHEIGHT,
+		hWnd, (HMENU)StartButtonClicked, NULL, NULL);
 }

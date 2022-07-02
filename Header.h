@@ -61,7 +61,7 @@ HBRUSH Blue = CreateSolidBrush(RGB(0, 0, 150));
 HBRUSH FieldBrush = CreateSolidBrush(RGB(0, 0, 0));
 
 LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
-WNDCLASS NewWindowClass(HBRUSH bgcolor, HCURSOR cursor, HINSTANCE hInst, HICON icon, LPCWSTR name, WNDPROC procedure);
+WNDCLASSEX NewWindowClass(HBRUSH bgcolor, HCURSOR cursor, HINSTANCE hInst, HICON icon, LPCWSTR name, WNDPROC procedure);
 
 
 void MainWndAddWidgets(HWND hWnd);
