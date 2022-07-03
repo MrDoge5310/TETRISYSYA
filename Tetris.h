@@ -1,29 +1,35 @@
 #pragma once
 #include "UIDrawer.h"
 
-
-
 class Tetris
 {
 public:
-    Tetris(UIDrawer& ui);
+    Tetris(UIDrawer& ui, int width, int height, int speed);
     ~Tetris();
 
     void restart();
-    void timerUpdate(HWND hTimer);
+    void timerUpdate();
     void repaint();
 
     bool keyPress(int key);
     void pause(bool paused);
-    bool isGameOver();
 
 private:
     UIDrawer& _ui;
-    bool _isPaused;
-    double timertick = 0;
-    int realtime = 1;
+    COLORREF** _board;
 
-    //HDC hdcTimer;
-    //RECT timerRect = { 550, 600, 100, 20 };
+    void newBoard();
+    void deleteBoard();
+    void drawBoard();
+    void clearFilledRows();
+    bool isGameOver();
+
+    int _width;
+    int _height;
+    int _speed;
+    int _score;
+
+    int _currentSpeed;
+    bool _isPaused;
 };
 

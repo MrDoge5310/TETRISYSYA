@@ -3,11 +3,11 @@
 
 FiguresSet::FiguresSet() 
 {
-	figures[0] = new Figure();
-	figures[1] = new Figure();
-	figures[2] = new Figure();
-	figures[3] = new Figure();
-	figures[4] = new Figure();
+	figures[0] = new Figure(LfigureCords);
+	figures[1] = new Figure(TfigureCords);
+	figures[2] = new Figure(SfigureCords);
+	figures[3] = new Figure(lfigureCords);
+	figures[4] = new Figure(SQfigureCords);
 }
 
 FiguresSet::~FiguresSet()

@@ -1,10 +1,13 @@
 #pragma once
-#include <windows.h>
+#include "Block.h"
 
 class Figure
 {
+	Block figure[4];
+
 public:
-	Figure();
+	Figure(int(&Cords)[2][4]);
+
 	~Figure();
 };
 
