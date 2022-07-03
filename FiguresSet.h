@@ -5,16 +5,13 @@ class FiguresSet
 {
 public:
 	// Constants
-	enum { FIGURES_COUNT = 5 };
+	enum { FIGURES_COUNT = 2, BLOCKS_NUMBER = 4};// each figure has 4 blocks
 
 	FiguresSet();
 	~FiguresSet();
 
-
 	Figure* getRandomFigure();
 private:
-	const int figuresCount = 5;
-
 	Figure *figures[FIGURES_COUNT];
 };
 

@@ -103,34 +103,6 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 	case WM_KEYDOWN:
 		tetris->keyPress(wp);
-		// move to Tetris class
-		switch (LOWORD(wp))
-		{
-		case VK_LEFT: {
-			for (int i = 0; i < 4; i++)
-			{
-				Tfigure[i].Move(-50, 0, -50, 0);
-			}
-			break;
-		}
-		case VK_RIGHT: {
-			for (int i = 0; i < 4; i++)
-			{
-				Tfigure[i].Move(50, 0, 50, 0);
-			}
-			break;
-		}
-		case VK_DOWN: {
-			for (int i = 0; i < 4; i++)
-			{
-				Tfigure[i].Move(0, 50, 0, 50);
-			}
-			break;
-		}
-
-		default:
-			break;
-		}
 		break;
 
 	case WM_DESTROY:

@@ -10,6 +10,10 @@ Tetris::Tetris(UIDrawer& ui, int width, int height, int speed) : _ui(ui)
     _isPaused = false;
     
     newBoard();
+
+    _currentFigure = _figures.getRandomFigure();
+    _nextFigure = _figures.getRandomFigure();
+    putFigure(3, _height - 1);
 }
 
 Tetris::~Tetris()
@@ -28,10 +32,10 @@ void Tetris::restart()
     repaint();
 }
 
-bool Tetris::keyPress(int key)
+void Tetris::keyPress(int key)
 {
     if (key != VK_PAUSE && key != VK_RETURN && _isPaused)
-        return false;
+        return;
 
     switch (key)
     {
@@ -42,10 +46,10 @@ bool Tetris::keyPress(int key)
         //move down
         break;
     case VK_LEFT:
-        //move left
+        moveFigure(-1, 0);
         break;
     case VK_RIGHT:
-        //move right
+        moveFigure(1, 0);
         break;
     case VK_SPACE:
         //rotate
@@ -56,10 +60,7 @@ bool Tetris::keyPress(int key)
     case VK_RETURN:
         // restart?
         break;
-    default:
-        return false;
     }
-    return true;
 }
 
 void Tetris::timerUpdate()
@@ -78,6 +79,7 @@ void Tetris::timerUpdate()
     _currentSpeed = max(_speed - 1, 100); // todo add correct speed logic
     _score += 1; // todo add sleared lines multiplier
 
+    moveFigure(0, -1);
     // todo add time calculation
     repaint();
 }
@@ -129,6 +131,57 @@ void Tetris::drawBoard()
     for (int i = 0; i < _width; i++)
         for (int j = 0; j < _height; j++)
             _ui.drawBlock(i, j, _board[i][j]);
+}
+
+bool Tetris::moveFigure(int x, int y) 
+{
+    int newX = _currentX + x;
+    int newY = _currentY + y;
+
+    if (newX < 0 || newY < 0)
+        return false;
+
+    // todo add hit left right and bottom check
+
+    return putFigure(newX, newY);
+}
+
+
+bool Tetris::putFigure(int x, int y) 
+{
+    clearPrevFigurePosition();
+
+    if (x + _currentFigure->width() > _width)
+        return false;
+
+    _currentX = x;
+    _currentY = y;
+
+    POINT blocks[FiguresSet::BLOCKS_NUMBER];
+    _currentFigure->blocks(blocks);
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (y + blocks[i].y > _height - 1)
+            continue;
+        _board[x + blocks[i].x][y + blocks[i].y] = _currentFigure->color();
+    }
+    return true;
+}
+
+void Tetris::clearPrevFigurePosition()
+{
+    POINT blocks[FiguresSet::BLOCKS_NUMBER];
+    _currentFigure->blocks(blocks);
+
+    int x, y;
+    for (int i = 0; i < FiguresSet::BLOCKS_NUMBER; i++) {
+        x = _currentX + blocks[i].x;
+        y = _currentY + blocks[i].y;
+        if (x > _width - 1 || y > _height - 1)
+            continue;
+        _board[_currentX + blocks[i].x][_currentY + blocks[i].y] = RGB(0, 0, 0);
+    }
 }
 
 void Tetris::clearFilledRows()

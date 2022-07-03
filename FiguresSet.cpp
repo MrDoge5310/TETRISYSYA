@@ -3,11 +3,22 @@
 
 FiguresSet::FiguresSet() 
 {
-	figures[0] = new Figure();
-	figures[1] = new Figure();
-	figures[2] = new Figure();
-	figures[3] = new Figure();
-	figures[4] = new Figure();
+	POINT blocks[BLOCKS_NUMBER]; // temporary storege for block positions
+
+	// Square - dark blue
+	blocks[0].x = 0;    blocks[0].y = 0;
+	blocks[1].x = 1;    blocks[1].y = 0;
+	blocks[2].x = 0;    blocks[2].y = 1;
+	blocks[3].x = 1;    blocks[3].y = 1;
+	figures[0] = new Figure(RGB(20, 100, 200), blocks);
+
+	// L - green
+	blocks[0].x = 0;    blocks[0].y = 0;
+	blocks[1].x = 1;    blocks[1].y = 0;
+	blocks[2].x = 0;    blocks[2].y = 1;
+	blocks[3].x = 1;    blocks[3].y = 1;
+	figures[1] = new Figure(RGB(120, 200, 80), blocks);
+
 }
 
 FiguresSet::~FiguresSet()
