@@ -9,7 +9,7 @@
 const int PIXEL_IN_BLOCK = 30;  // One block size in pixels
 const int SCREEN_WIDTH = 10;    // Game field width in blocks
 const int SCREEN_HEIGHT = 20;   // Game field height in blocks
-const int GAME_SPEED = 1000;      // Game update speed in milliseconds
+const int GAME_SPEED = 300;      // Game update speed in milliseconds
 const int TIMER_ID = 1;
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nCmdShow)
@@ -30,7 +30,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nC
 		L"Tetris",
 		WS_MINIMIZEBOX | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT,
 		SCREEN_WIDTH * PIXEL_IN_BLOCK + 160,
-		SCREEN_HEIGHT * PIXEL_IN_BLOCK + 30,
+		SCREEN_HEIGHT * PIXEL_IN_BLOCK + 35,
 		NULL,
 		NULL,
 		hInst,
@@ -79,7 +79,6 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		ui = new UIDrawer(hdc, hWnd, PIXEL_IN_BLOCK, SCREEN_WIDTH, SCREEN_HEIGHT);
 		tetris = new Tetris(*ui, SCREEN_WIDTH, SCREEN_HEIGHT, GAME_SPEED);
 
-
 		SetTimer(hWnd, TIMER_ID, GAME_SPEED, NULL);
 
 		ReleaseDC(hWnd, hdc);
@@ -104,34 +103,6 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 	case WM_KEYDOWN:
 		tetris->keyPress(wp);
-		// move to Tetris class
-		switch (LOWORD(wp))
-		{
-		case VK_LEFT: {
-			for (int i = 0; i < 4; i++)
-			{
-				//Tfigure[i].Move(-50, 0, -50, 0);
-			}
-			break;
-		}
-		case VK_RIGHT: {
-			for (int i = 0; i < 4; i++)
-			{
-				//Tfigure[i].Move(50, 0, 50, 0);
-			}
-			break;
-		}
-		case VK_DOWN: {
-			for (int i = 0; i < 4; i++)
-			{
-				//Tfigure[i].Move(0, 50, 0, 50);
-			}
-			break;
-		}
-
-		default:
-			break;
-		}
 		break;
 
 	case WM_DESTROY:

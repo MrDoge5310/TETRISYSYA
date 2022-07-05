@@ -1,13 +1,22 @@
 #pragma once
-#include "Block.h"
+#include <windows.h>
 
 class Figure
 {
-	Block figure[4];
-
 public:
-	Figure(int(&Cords)[2][4]);
-
+	Figure(COLORREF pieceColor, POINT* blocks);
 	~Figure();
+
+	void changeRotation(int rotationCount);
+	void blocks(POINT* apt);
+	COLORREF color();
+	int width();
+	int height();
+
+private:
+	COLORREF _color;
+	POINT* _body;
+
+	int _rotation;
 };
 
