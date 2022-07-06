@@ -20,12 +20,12 @@ private:
     COLORREF** _board;
     FiguresSet _figures;
     Figure* _currentFigure;
-    Figure* _nextFigure;
 
     void newBoard();
     void deleteBoard();
     void drawBoard();
 
+    void createNewFigure();
     bool moveFigure(int x, int y);
     bool putFigure(int x, int y);
     bool putToTop();

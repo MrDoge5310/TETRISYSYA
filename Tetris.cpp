@@ -10,10 +10,6 @@ Tetris::Tetris(UIDrawer& ui, int width, int height, int speed) : _ui(ui)
     _isPaused = false;
     
     newBoard();
-
-    _currentFigure = _figures.getRandomFigure();
-    _nextFigure = _figures.getRandomFigure();
-    putFigure(4, _height - 1);
 }
 
 Tetris::~Tetris()
@@ -75,21 +71,25 @@ void Tetris::timerUpdate()
         return;
     }
 
+    if (_currentFigure == NULL)
+        createNewFigure();
+
     clearFilledRows();
     _currentSpeed = max(_speed - 1, 100); // todo add correct speed logic
     _score += 1; // todo add sleared lines multiplier
 
-    // todo add time calculation
-    repaint();
-
     if (CheckColision() == true)
     {
         putFigure(_currentX, _currentY);
-        
+
         _currentFigure = _figures.getRandomFigure();
         putToTop();
 
-    } else moveFigure(0, -1);
+    }
+    else moveFigure(0, -1);
+
+    // todo add time calculation
+    repaint();
 }
 
 void Tetris::pause(bool paused)
@@ -141,9 +141,14 @@ void Tetris::drawBoard()
             _ui.drawBlock(i, j, _board[i][j]);
 }
 
+void Tetris::createNewFigure() 
+{
+    _currentFigure = _figures.getRandomFigure();
+    putFigure(4, _height - 1);
+}
+
 bool Tetris::moveFigure(int x, int y) 
 {
-
         int newX = _currentX + x;
         int newY = _currentY + y;
 
