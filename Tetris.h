@@ -18,6 +18,7 @@ public:
 private:
     UIDrawer& _ui;
     COLORREF** _board;
+    COLORREF _black;
     FiguresSet _figures;
     Figure* _currentFigure;
 
@@ -29,7 +30,7 @@ private:
     bool moveFigure(int x, int y);
     bool putFigure(int x, int y);
     bool putToTop();
-    bool CheckColision();
+    bool CheckColisionBottom();
     void clearPrevFigurePosition();
 
     void clearFilledRows();

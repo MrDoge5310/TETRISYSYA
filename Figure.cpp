@@ -34,13 +34,31 @@ void Figure::changeRotation(int rotationCount)
 
 }
 
-void Figure::blocks(POINT* apt)
+void Figure::blocks(POINT* points)
 {
     for (int i = 0; i < FiguresSet::BLOCKS_NUMBER; i++)
-        apt[i] = _body[i];
+        points[i] = _body[i];
 }
 
+int Figure::bottom(POINT* points)
+{
+    int count = 0;
+    for (int x = 0; x < width(); x++)
+    {
+        for (int y = 0; y < height(); y++)
+        {
+            if (hasPointAt(x, y))
+            {
+                points[count].x = x;
+                points[count].y = y;
+                count++;
 
+                break;
+            }
+        }
+    }
+    return count;
+}
 
 COLORREF Figure::color()
 {
@@ -65,4 +83,14 @@ int Figure::height()
         result = max((int)_body[i].y + 1, result);
     }
     return result;
+}
+
+bool Figure::hasPointAt(int x, int y)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (_body[i].x == x && _body[i].y == y)
+            return true;
+    }
+    return false;
 }

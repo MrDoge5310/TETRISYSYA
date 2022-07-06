@@ -8,7 +8,8 @@ Tetris::Tetris(UIDrawer& ui, int width, int height, int speed) : _ui(ui)
     _speed = speed;
     _currentSpeed = speed;
     _isPaused = false;
-    
+    _black = RGB(0, 0, 0);
+
     newBoard();
 }
 
@@ -74,20 +75,20 @@ void Tetris::timerUpdate()
     if (_currentFigure == NULL)
         createNewFigure();
 
-    clearFilledRows();
-    _currentSpeed = max(_speed - 1, 100); // todo add correct speed logic
-    _score += 1; // todo add sleared lines multiplier
-
-    if (CheckColision() == true)
+    if (moveFigure(0, -1) == false)
     {
-        putFigure(_currentX, _currentY);
+        clearFilledRows();
+        _currentSpeed = max(_speed - 1, 100); // todo add correct speed logic
+        _score += 1; // todo add sleared lines multiplier
 
-        _currentFigure = _figures.getRandomFigure();
-        putToTop();
+        createNewFigure();
 
+        //putFigure(_currentX, _currentY);
+
+        //_currentFigure = _figures.getRandomFigure();
+        //putToTop();
     }
-    else moveFigure(0, -1);
-
+    
     // todo add time calculation
     repaint();
 }
@@ -123,7 +124,7 @@ void Tetris::newBoard()
     {
         _board[x] = new COLORREF[_height];
         for (int y = 0; y < _height; y++)
-            _board[x][y] = RGB(0, 0, 0);
+            _board[x][y] = _black;
     }
 }
 
@@ -149,50 +150,46 @@ void Tetris::createNewFigure()
 
 bool Tetris::moveFigure(int x, int y) 
 {
-        int newX = _currentX + x;
-        int newY = _currentY + y;
+    if (CheckColisionBottom())
+    {
+        return false;
+    }
 
-        if (newX < 0 || newY < 0)
-            return false;
+    // todo add chech colisions for left and right side
+
+    clearPrevFigurePosition();
+
+    int newX = _currentX + x;
+    int newY = _currentY + y;
+
+    if (newX < 0 || newY < 0)
+        return false;
 
 
-        return putFigure(newX, newY);
+    return putFigure(newX, newY);
 }
 
-bool Tetris::CheckColision()
+bool Tetris::CheckColisionBottom()
 {
-    int c = 0;
-
-    COLORREF black = RGB(0, 0, 0);
     POINT blocks[FiguresSet::BLOCKS_NUMBER];
-    _currentFigure->blocks(blocks);
+    int blocksCount = _currentFigure->bottom(blocks);
+
     int mx = 0;
     int my = 0;
-    for (int i = 0; i < 4; i++) {
-        if (blocks[i].x > mx)
-            mx = blocks[i].x;
-        if (blocks[i].y > my)
-            my = blocks[i].y;
-    }
-    if (_height - _currentY == _height) {
-        return true;
-    }
+    
+    for (int i = 0; i < blocksCount; i++)
+    {
+        mx = _currentX + blocks[i].x;
+        my = _currentY + blocks[i].y;
 
-    for (int i = 0; i < 4; i++) {
-        if (blocks[i].x == mx || blocks[i].y == my) {
-            if (_board[_currentX + blocks[i].x][_currentY - blocks[i].y + 1] != black) {
-                return true;
-            }
-        }
+        if (my < _height && (my == 0 || _board[mx][my - 1] != _black))
+            return true;
     }
-
-    //return true;
+    return false;
 }
 
 bool Tetris::putFigure(int x, int y) 
 {
-    clearPrevFigurePosition();
-
     if (x + _currentFigure->width() > _width)
         return false;
 
@@ -202,10 +199,8 @@ bool Tetris::putFigure(int x, int y)
     POINT blocks[FiguresSet::BLOCKS_NUMBER];
     _currentFigure->blocks(blocks);
 
-
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < FiguresSet::BLOCKS_NUMBER; i++)
     {
-            
         if (y + blocks[i].y > _height - 1)
             continue;
         _board[x + blocks[i].x][y + blocks[i].y] = _currentFigure->color();
@@ -238,6 +233,9 @@ bool Tetris::putToTop()
 
 void Tetris::clearPrevFigurePosition()
 {
+    if (_currentFigure == NULL)
+        return;
+
     POINT blocks[FiguresSet::BLOCKS_NUMBER];
     _currentFigure->blocks(blocks);
 
@@ -247,13 +245,13 @@ void Tetris::clearPrevFigurePosition()
         y = _currentY + blocks[i].y;
         if (x > _width - 1 || y > _height - 1)
             continue;
-        _board[_currentX + blocks[i].x][_currentY + blocks[i].y] = RGB(0, 0, 0);
+        _board[_currentX + blocks[i].x][_currentY + blocks[i].y] = _black;
     }
 }
 
 void Tetris::clearFilledRows()
 {
-    //_board[i][j] = black;
+    //_board[i][j] = _black;
 }
 
 

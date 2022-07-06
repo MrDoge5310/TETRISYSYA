@@ -9,6 +9,8 @@ public:
 
 	void changeRotation(int rotationCount);
 	void blocks(POINT* apt);
+	int bottom(POINT* apt);
+
 	COLORREF color();
 	int width();
 	int height();
@@ -18,5 +20,7 @@ private:
 	POINT* _body;
 
 	int _rotation;
+
+	bool hasPointAt(int x, int y);
 };
 
