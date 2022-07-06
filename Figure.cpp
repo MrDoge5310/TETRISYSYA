@@ -29,6 +29,8 @@ Figure::~Figure()
 
 void Figure::changeRotation(int rotationCount)
 {
+        
+    blocks(_body);
 
 }
 

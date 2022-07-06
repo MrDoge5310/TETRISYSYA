@@ -40,7 +40,7 @@ void Tetris::keyPress(int key)
     switch (key)
     {
     case VK_UP:
-        //rotate
+        //rrottate
         break;
     case VK_DOWN:
         moveFigure(0, -1);
@@ -156,39 +156,32 @@ bool Tetris::moveFigure(int x, int y)
 
 bool Tetris::CheckColision()
 {
+    int c = 0;
+
     COLORREF black = RGB(0, 0, 0);
     POINT blocks[FiguresSet::BLOCKS_NUMBER];
     _currentFigure->blocks(blocks);
     int mx = 0;
     int my = 0;
-
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++) {
         if (blocks[i].x > mx)
-        {
             mx = blocks[i].x;
-        }
-    }
-    for (int i = 0; i < 4; i++)
-    {
         if (blocks[i].y > my)
-        {
             my = blocks[i].y;
-        }
     }
-    for (int i = 0; i < 4; i++)
-    {
-        if (blocks[i].x == mx or blocks[i].y == my) {
-            if (_board[_currentX + blocks[i].x][_currentY + blocks[i].y ] != black)
-                return true;
-        }
+    if (_height - _currentY == _height) {
+        return true;
     }
-    if (_currentY == 0) {
-            return true;
-    }
-    
 
-    return false;
+    for (int i = 0; i < 4; i++) {
+        if (blocks[i].x == mx || blocks[i].y == my) {
+            if (_board[_currentX + blocks[i].x][_currentY - blocks[i].y + 1] != black) {
+                return true;
+            }
+        }
+    }
+
+    //return true;
 }
 
 bool Tetris::putFigure(int x, int y) 
@@ -204,8 +197,10 @@ bool Tetris::putFigure(int x, int y)
     POINT blocks[FiguresSet::BLOCKS_NUMBER];
     _currentFigure->blocks(blocks);
 
+
     for (int i = 0; i < 4; i++)
     {
+            
         if (y + blocks[i].y > _height - 1)
             continue;
         _board[x + blocks[i].x][y + blocks[i].y] = _currentFigure->color();
@@ -253,7 +248,7 @@ void Tetris::clearPrevFigurePosition()
 
 void Tetris::clearFilledRows()
 {
-    //if (_board[j][i] == RGB(0,0,0))
+    //_board[i][j] = black;
 }
 
 
