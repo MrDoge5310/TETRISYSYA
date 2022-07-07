@@ -94,7 +94,16 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		switch (wp)
 		{
 		case StartButtonClicked:
-			SetWindowText(hWndButton, L"Pause");
+			if (tetris->isPaused())
+			{
+				SetWindowText(hWndButton, L"Pause");
+				tetris->pause(false);
+			}
+			else
+			{
+				SetWindowText(hWndButton, L"Play");
+				tetris->pause(true);
+			}
 		}
 		break;
 
@@ -125,7 +134,7 @@ HWND MainWndAddWidgets(HWND hWnd)
 	int startButtonWIDTH = 70;
 	int startButtonHEIGHT = 30;
 
-	return CreateWindowA("button", "Play",
+	return CreateWindowA("button", "Pause",
 		WS_VISIBLE | WS_CHILD | BS_CENTER, 
 		
 		SCREEN_WIDTH * PIXEL_IN_BLOCK + 40,

@@ -14,6 +14,7 @@ public:
 
     void keyPress(int key);
     void pause(bool paused);
+    bool isPaused();
 
 private:
     UIDrawer& _ui;

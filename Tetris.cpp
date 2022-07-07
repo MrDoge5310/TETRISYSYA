@@ -36,7 +36,7 @@ void Tetris::restart()
 
 void Tetris::keyPress(int key)
 {
-    if (key != VK_PAUSE && key != VK_RETURN && _isPaused)
+    if (key != VK_RETURN && _isPaused)
         return;
 
     switch (key)
@@ -56,11 +56,6 @@ void Tetris::keyPress(int key)
     case VK_SPACE:
         //rotate
         break;
-    case VK_PAUSE:
-        if (!_isPaused)
-            pause(true);
-        else
-            _isPaused = false;
     case VK_RETURN:
         restart();
         break;
@@ -78,9 +73,6 @@ void Tetris::timerUpdate()
         _ui.drawGameOver();
         return;
     }
-
-    
-
 
     if (_currentFigure == NULL)
         createNewFigure();
@@ -109,6 +101,11 @@ void Tetris::pause(bool paused)
     _isPaused = paused;
     if (paused)
         _ui.drawPause();
+}
+
+bool Tetris::isPaused()
+{
+    return _isPaused;
 }
 
 void Tetris::repaint()
