@@ -9,7 +9,7 @@
 const int PIXEL_IN_BLOCK = 30;  // One block size in pixels
 const int SCREEN_WIDTH = 10;    // Game field width in blocks
 const int SCREEN_HEIGHT = 20	;   // Game field height in blocks
-const int GAME_SPEED = 50;      // Game update speed in milliseconds
+const int GAME_SPEED = 200;      // Game update speed in milliseconds
 const int TIMER_ID = 1;
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nCmdShow)

@@ -7,6 +7,7 @@ Tetris::Tetris(UIDrawer& ui, int width, int height, int speed) : _ui(ui)
     _height = height;
     _speed = speed;
     _currentSpeed = speed;
+    _targetScore = 300;
     _isPaused = false;
     _black = RGB(0, 0, 0);
 
@@ -20,11 +21,15 @@ Tetris::~Tetris()
 
 void Tetris::restart()
 {
+    if (!_isGameOver)
+        return;
+
     deleteBoard();
     newBoard();
-    _isPaused = false;
+    _isGameOver = false;
     _score = 0;
     _currentSpeed = _speed;
+    _targetScore = 300;
 
     repaint();
 }
@@ -37,7 +42,7 @@ void Tetris::keyPress(int key)
     switch (key)
     {
     case VK_UP:
-        //rrottate
+        //rottate
         break;
     case VK_DOWN:
         moveFigure(0, -1);
@@ -52,10 +57,12 @@ void Tetris::keyPress(int key)
         //rotate
         break;
     case VK_PAUSE:
-        //pause
-        break;
+        if (!_isPaused)
+            pause(true);
+        else
+            _isPaused = false;
     case VK_RETURN:
-        // restart?
+        restart();
         break;
     }
 }
@@ -65,12 +72,15 @@ void Tetris::timerUpdate()
     if (_isPaused)
         return;
 
-    if (isGameOver())
+    if (_isGameOver)
     {
-        _isPaused = true;
+        //_isPaused = true;
         _ui.drawGameOver();
         return;
     }
+
+    
+
 
     if (_currentFigure == NULL)
         createNewFigure();
@@ -83,6 +93,7 @@ void Tetris::timerUpdate()
             _targetScore *= 2;
         }
 
+        isGameOver();
         createNewFigure();
     }
     
@@ -92,7 +103,7 @@ void Tetris::timerUpdate()
 
 void Tetris::pause(bool paused)
 {
-    if (isGameOver())
+    if (_isGameOver)
         return;
 
     _isPaused = paused;
@@ -110,7 +121,7 @@ void Tetris::repaint()
 
     if (_isPaused)
         _ui.drawPause();
-    else if (isGameOver())
+    else if (_isGameOver)
         _ui.drawGameOver();
 }
 
@@ -289,8 +300,10 @@ bool Tetris::isFullFilled(int y)
 }
 
 
-bool Tetris::isGameOver()
+void Tetris::isGameOver()
 {
-    // todo add logic
-    return false;
+    if (_currentY + _currentFigure->height() >= _height)
+        _isGameOver = true;
+    else
+        _isGameOver = false;
 }

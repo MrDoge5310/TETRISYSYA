@@ -36,18 +36,19 @@ private:
     int clearFilledRows();
     void dropRows(int y);
     bool isFullFilled(int y);
-    bool isGameOver();
+    void isGameOver();
 
     int _width;
     int _height;
     int _speed;
     int _score;
-    int _targetScore = 300;
+    int _targetScore;
 
     int _currentX;
     int _currentY;
 
     int _currentSpeed;
     bool _isPaused;
+    bool _isGameOver = false;
 };
 

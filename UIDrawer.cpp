@@ -59,23 +59,24 @@ void UIDrawer::drawInterface()
 void UIDrawer::drawGameOver()
 {
     //drawText(TEXT("GAME OVER"), 3, 10);
-    //drawText(TEXT("Press ENTER to restart"), 2, 9);
+    
     TCHAR szBuffer[20];
     int len = wsprintf(szBuffer, TEXT("GAME OVER"));
     SetBkMode(_hdc, OPAQUE);
     TextOut(_hdc, 3, 10, szBuffer, len);
+    TextOut(_hdc, 2, 9, L"Press ENTER to restart", 22);
     SetBkMode(_hdc, TRANSPARENT);
 }
 
 void UIDrawer::drawPause()
 {
     //drawText(TEXT("PAUSE"), 4, 10);
-    //drawText(TEXT("Press PAUSE again to continue"), 1, 9)
-
+    
     TCHAR szBuffer[20];
     int len = wsprintf(szBuffer, TEXT("PAUSE"));
     SetBkMode(_hdc, OPAQUE);
     TextOut(_hdc, 4, 10, szBuffer, len);
+    TextOut(_hdc, 2, 9, L"Press 'PAUSE' again to continue", 31);
     SetBkMode(_hdc, TRANSPARENT);
 }
 
