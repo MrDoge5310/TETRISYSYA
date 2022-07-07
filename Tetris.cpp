@@ -69,7 +69,6 @@ void Tetris::timerUpdate()
 
     if (_isGameOver)
     {
-        //_isPaused = true;
         _ui.drawGameOver();
         return;
     }
@@ -255,16 +254,27 @@ void Tetris::clearPrevFigurePosition()
 
 int  Tetris::clearFilledRows()
 {
+
+    bool isComplete;
     int cleardRaws = 0;
+
     for (int y = 0; y < _height; y++)
     {
-        if (isFullFilled(y) == true) {
-            dropRows(y);
+        if (isFullFilled(y))
+        {
+            for (int x = 0; x < _width; x++) // clear row
+                _board[x][y] = _black;
+
+            for (int my = y; my < _height - 1; my++) // move down rows
+            {
+                for (int mx = 0; mx < _width; mx++)
+                    _board[mx][my] = _board[mx][my + 1];
+            }
+            y = -1;
             cleardRaws++;
         }
     }
     return cleardRaws;
-    cleardRaws = 0;
 }
 
 void Tetris::dropRows(int y)
