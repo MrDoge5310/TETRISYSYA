@@ -74,19 +74,16 @@ void Tetris::timerUpdate()
 
     if (_currentFigure == NULL)
         createNewFigure();
-
+    
     if (moveFigure(0, -1) == false)
     {
-        clearFilledRows();
-        _currentSpeed = max(_speed - 1, 100); // todo add correct speed logic
-        _score += 1; // todo add sleared lines multiplier
+        _score += clearFilledRows()/2 * 100;
+        if (_score >= _targetScore) {
+            _currentSpeed =  max(50, _speed - 50);
+            _targetScore *= 2;
+        }
 
         createNewFigure();
-
-        //putFigure(_currentX, _currentY);
-
-        //_currentFigure = _figures.getRandomFigure();
-        //putToTop();
     }
     
     // todo add time calculation
@@ -249,9 +246,46 @@ void Tetris::clearPrevFigurePosition()
     }
 }
 
-void Tetris::clearFilledRows()
+int  Tetris::clearFilledRows()
 {
-    //_board[i][j] = _black;
+    int cleardRaws = 0;
+    for (int y = 0; y < _height; y++)
+    {
+        if (isFullFilled(y) == true) {
+            dropRows(y);
+            cleardRaws++;
+        }
+    }
+    return cleardRaws;
+    cleardRaws = 0;
+}
+
+void Tetris::dropRows(int y)
+{
+    for (int x = 0; x < _width; x++) {
+        _board[x][y] = _black;
+    }
+
+    for (y; y < _height; y++)
+    {
+        for (int x = 0; x < _width; x++) {
+            _board[x][y] = _board[x][y+1];
+        }
+    }
+}
+
+bool Tetris::isFullFilled(int y)
+{
+    for (int x = 0; x < _width; x++)
+    {
+        if (_board[x][y] == _black)
+        {
+            return false;
+        }
+    }
+   
+    
+    return true;
 }
 
 

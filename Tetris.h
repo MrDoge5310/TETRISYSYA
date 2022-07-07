@@ -33,13 +33,16 @@ private:
     bool CheckColisionBottom();
     void clearPrevFigurePosition();
 
-    void clearFilledRows();
+    int clearFilledRows();
+    void dropRows(int y);
+    bool isFullFilled(int y);
     bool isGameOver();
 
     int _width;
     int _height;
     int _speed;
     int _score;
+    int _targetScore = 300;
 
     int _currentX;
     int _currentY;
