@@ -73,8 +73,10 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	switch (msg) 
 	{
 	case WM_CREATE:
-		MainWndAddWidgets(hWnd);
 		hdc = GetDC(hWnd);
+
+		hWndButton = MainWndAddWidgets(hWnd);
+
 		// init game logic
 		ui = new UIDrawer(hdc, hWnd, PIXEL_IN_BLOCK, SCREEN_WIDTH, SCREEN_HEIGHT);
 		tetris = new Tetris(*ui, SCREEN_WIDTH, SCREEN_HEIGHT, GAME_SPEED);
@@ -89,9 +91,10 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		break;
 
 	case WM_COMMAND:
-		switch (wp) {
+		switch (wp)
+		{
 		case StartButtonClicked:
-			int i = 0;
+			SetWindowText(hWndButton, L"Pause");
 		}
 		break;
 
@@ -117,15 +120,16 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	}
 }
 
-void MainWndAddWidgets(HWND hWnd)
+HWND MainWndAddWidgets(HWND hWnd)
 {
 	int startButtonWIDTH = 70;
 	int startButtonHEIGHT = 30;
 
-	CreateWindowA("button", "Start",
+	return CreateWindowA("button", "Play",
 		WS_VISIBLE | WS_CHILD | BS_CENTER, 
-		SCREEN_WIDTH * PIXEL_IN_BLOCK - startButtonWIDTH + 110,
-		SCREEN_HEIGHT * PIXEL_IN_BLOCK - startButtonHEIGHT - 30,
+		
+		SCREEN_WIDTH * PIXEL_IN_BLOCK + 40,
+		SCREEN_HEIGHT * PIXEL_IN_BLOCK - 40,
 		startButtonWIDTH,
 		startButtonHEIGHT,
 		hWnd, (HMENU)StartButtonClicked, NULL, NULL);

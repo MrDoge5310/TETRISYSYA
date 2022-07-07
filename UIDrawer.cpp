@@ -13,8 +13,8 @@ UIDrawer::UIDrawer(HDC hdc, HWND hwnd, int blockPixels, int width, int height)
 
     // Default colors for ui
     SetBkMode(hdc, TRANSPARENT);
-    SetTextColor(hdc, RGB(255, 255, 255));
-    SetBkColor(hdc, RGB(80, 80, 80));
+    SetTextColor(hdc, RGB(0, 0, 0));
+    SetBkColor(hdc, RGB(240, 240, 240));
 
     // Coordinate system
     SetMapMode(hdc, MM_ISOTROPIC);
@@ -42,17 +42,6 @@ void UIDrawer::drawBlock(int x, int y, COLORREF color)
     MoveToEx(_hdc, x, y + 1, NULL);
     LineTo(_hdc, x, y);
     LineTo(_hdc, x + 1, y);
-    DeleteObject(hBrush);
-}
-
-void UIDrawer::drawInterface()
-{
-    HBRUSH hBrush = CreateSolidBrush(RGB(80, 80, 80));
-    _rect.top = _height;
-    _rect.left = _width;
-    _rect.bottom = 0;
-    _rect.right = _width + 8;
-    FillRect(_hdc, &_rect, hBrush);
     DeleteObject(hBrush);
 }
 

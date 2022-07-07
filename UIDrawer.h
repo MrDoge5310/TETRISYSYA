@@ -10,7 +10,6 @@ public:
 
     void drawBlock(int x, int y, COLORREF color);
 
-    void drawInterface();
     void drawGameOver();
     void drawPause();
 

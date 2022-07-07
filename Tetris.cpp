@@ -113,7 +113,6 @@ void Tetris::pause(bool paused)
 
 void Tetris::repaint()
 {
-    _ui.drawInterface();
     _ui.drawSpeed((500 - _currentSpeed) / 2, _width + 1, 12);
     _ui.drawScore(_score, _width + 1, 13);
 
