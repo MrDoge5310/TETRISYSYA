@@ -81,8 +81,8 @@ bool Tetris::isPaused()
 
 void Tetris::repaint()
 {
-    _ui.drawSpeed((_currentSpeed) / 2, _width + 1, 12);
-    _ui.drawScore(_score, _width + 1, 13);
+    _ui.drawSpeed(_currentSpeed, 1, 23);
+    _ui.drawScore(_score, 6, 23);
 
     drawBoard();
 
@@ -112,9 +112,9 @@ void Tetris::deleteBoard()
 
 void Tetris::drawBoard()
 {
-    for (int i = 0; i < _width; i++)
-        for (int j = 0; j < _height; j++)
-            _ui.drawBlock(i, j, _board[i][j]);
+    for (int x = 0; x < _width; x++)
+        for (int y = 0; y < _height; y++)
+            _ui.drawBlock(x, y+2, _board[x][y]);
 }
 
 void Tetris::createNewFigure() 
@@ -171,7 +171,6 @@ void Tetris::rotateFigure()
     _currentFigure = tmp;
     putFigure(_currentX, _currentY);
 }
-
 
 bool Tetris::CheckColisionBottom()
 {
@@ -342,11 +341,9 @@ bool Tetris::isFullFilled(int y)
             return false;
         }
     }
-   
     
     return true;
 }
-
 
 void Tetris::isGameOver()
 {

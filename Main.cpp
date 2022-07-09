@@ -22,8 +22,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nC
 	hMainWnd = CreateWindow(L"MainWndClass", 
 		L"Tetris",
 		WS_MINIMIZEBOX | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT,
-		SCREEN_WIDTH * PIXEL_IN_BLOCK + 160,
-		SCREEN_HEIGHT * PIXEL_IN_BLOCK + 35,
+		SCREEN_WIDTH * PIXEL_IN_BLOCK + 15,
+		SCREEN_HEIGHT * PIXEL_IN_BLOCK + 145,
 		NULL,
 		NULL,
 		hInst,
@@ -160,8 +160,8 @@ HWND MainWndAddWidgets(HWND hWnd)
 
 	return CreateWindowA("button", "Pause",
 		WS_VISIBLE | WS_CHILD | BS_CENTER, 
-		SCREEN_WIDTH * PIXEL_IN_BLOCK + 40,
-		SCREEN_HEIGHT * PIXEL_IN_BLOCK - 40,
+		(SCREEN_WIDTH * PIXEL_IN_BLOCK) / 2 - 40,
+		SCREEN_HEIGHT * PIXEL_IN_BLOCK + 60,
 		startButtonWIDTH,
 		startButtonHEIGHT,
 		hWnd, (HMENU)StartButtonClicked, NULL, NULL);

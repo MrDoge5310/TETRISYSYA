@@ -86,7 +86,3 @@ void UIDrawer::drawSpeed(int speed, int x, int y)
     TextOut(_hdc, x, y, szBuffer, len);
     SetBkMode(_hdc, TRANSPARENT);
 }
-
-void UIDrawer::drawNextFigure(Figure& figure, int x, int y)
-{
-}

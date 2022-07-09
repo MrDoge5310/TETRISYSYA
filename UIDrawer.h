@@ -15,7 +15,6 @@ public:
 
     void drawScore(int score, int x, int y);
     void drawSpeed(int speed, int x, int y);
-    void drawNextFigure(Figure& figure, int x, int y);
 
 private:
     HDC _hdc;
