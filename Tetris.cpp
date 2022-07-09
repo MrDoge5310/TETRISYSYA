@@ -7,10 +7,9 @@ Tetris::Tetris(UIDrawer& ui, int width, int height, int speed) : _ui(ui)
     _height = height;
     _speed = speed;
     _currentSpeed = speed;
-    _targetScore = 300;
+    _targetScore = 200;
     _isPaused = false;
     _black = RGB(0, 0, 0);
-
     newBoard();
 }
 
@@ -42,7 +41,9 @@ void Tetris::keyPress(int key)
     switch (key)
     {
     case VK_UP:
-        //rottate
+
+        clearPrevFigurePosition();
+        _currentFigure->changeRotation();
         break;
     case VK_DOWN:
         moveFigure(0, -1);
@@ -62,15 +63,15 @@ void Tetris::keyPress(int key)
     }
 }
 
-void Tetris::timerUpdate()
+int Tetris::timerUpdate()
 {
     if (_isPaused)
-        return;
+        return 0;
 
     if (_isGameOver)
     {
         _ui.drawGameOver();
-        return;
+        return 0;
     }
 
     if (_currentFigure == NULL)
@@ -78,9 +79,9 @@ void Tetris::timerUpdate()
     
     if (moveFigure(0, -1) == false)
     {
-        _score += clearFilledRows()/2 * 100;
+        _score += clearFilledRows() * 100;
         if (_score >= _targetScore) {
-            _currentSpeed =  max(50, _speed - 50);
+            _currentSpeed =  max(50, _currentSpeed - 50);
             _targetScore *= 2;
         }
 
@@ -90,6 +91,8 @@ void Tetris::timerUpdate()
     
     // todo add time calculation
     repaint();
+
+    return _currentSpeed;
 }
 
 void Tetris::pause(bool paused)
@@ -109,7 +112,7 @@ bool Tetris::isPaused()
 
 void Tetris::repaint()
 {
-    _ui.drawSpeed((500 - _currentSpeed) / 2, _width + 1, 12);
+    _ui.drawSpeed((_currentSpeed) / 2, _width + 1, 12);
     _ui.drawScore(_score, _width + 1, 13);
 
     drawBoard();

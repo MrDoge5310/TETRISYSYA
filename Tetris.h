@@ -9,7 +9,7 @@ public:
     ~Tetris();
 
     void restart();
-    void timerUpdate();
+    int timerUpdate();
     void repaint();
 
     void keyPress(int key);

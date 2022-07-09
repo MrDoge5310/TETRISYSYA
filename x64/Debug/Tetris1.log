@@ -1,2 +1,4 @@
-﻿  Tetris.cpp
+﻿  Main.cpp
+D:\Projects\TETRISYSYA\Main.cpp(112,20): warning C4244: аргумент: преобразование "WPARAM" в "int", возможна потеря данных
+D:\Projects\TETRISYSYA\Main.cpp(125): warning C4715: MainClassProcedure: значение возвращается не при всех путях выполнения
   Tetris1.vcxproj -> D:\Projects\TETRISYSYA\x64\Debug\Tetris.exe

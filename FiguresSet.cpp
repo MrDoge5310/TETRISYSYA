@@ -27,10 +27,10 @@ FiguresSet::FiguresSet()
 	figures[2] = new Figure(RGB(255, 255, 0), blocks);
 
 	//T - red
-	blocks[0].x = 0;    blocks[0].y = 0;
-	blocks[1].x = 0;    blocks[1].y = 1;
-	blocks[2].x = 1;    blocks[2].y = 1;
-	blocks[3].x = 0;    blocks[3].y = 2;
+	blocks[0].x = 1;    blocks[0].y = 0;
+	blocks[1].x = 1;    blocks[1].y = 1;
+	blocks[2].x = 0;    blocks[2].y = 1;
+	blocks[3].x = 1;    blocks[3].y = 2;
 	figures[3] = new Figure(RGB(200, 0, 0), blocks);
 
 	//S - pink

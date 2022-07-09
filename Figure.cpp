@@ -27,11 +27,16 @@ Figure::~Figure()
     delete[] _body;
 }
 
-void Figure::changeRotation(int rotationCount)
+void Figure::changeRotation()
 {
-        
+    for (int i = 0; i < 4; i++)
+    {
+        int x = _body[i].x;
+        int y = _body[i].y;
+        _body[i].x = y;
+        _body[i].y = x;
+    }
     blocks(_body);
-
 }
 
 void Figure::blocks(POINT* points)

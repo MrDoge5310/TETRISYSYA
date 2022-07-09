@@ -5,13 +5,6 @@
 #include "Tetris.h"
 #include "resource.h"
 
-
-const int PIXEL_IN_BLOCK = 30;  // One block size in pixels
-const int SCREEN_WIDTH = 10;    // Game field width in blocks
-const int SCREEN_HEIGHT = 20	;   // Game field height in blocks
-const int GAME_SPEED = 200;      // Game update speed in milliseconds
-const int TIMER_ID = 1;
-
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szCmdLine, int nCmdShow)
 {
 	WNDCLASSEX MainClass = NewWindowClass(
@@ -87,7 +80,9 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		break;
 
 	case WM_TIMER:
-		tetris->timerUpdate();
+		newspeed  = tetris->timerUpdate();
+		KillTimer(hMainWnd, TIMER_ID);
+		SetTimer(hWnd, TIMER_ID, ChangeSpeed(newspeed), NULL);
 		break;
 
 	case WM_COMMAND:
@@ -129,6 +124,12 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	}
 }
 
+UINT ChangeSpeed(int newspeed)
+{
+	UINT gamespeed = newspeed;
+
+	return gamespeed;
+}
 HWND MainWndAddWidgets(HWND hWnd)
 {
 	int startButtonWIDTH = 70;
