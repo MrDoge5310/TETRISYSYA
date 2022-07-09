@@ -27,16 +27,13 @@ Figure::~Figure()
     delete[] _body;
 }
 
-void Figure::changeRotation()
+void Figure::changeRotation(POINT* points)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < FiguresSet::BLOCKS_NUMBER; i++)
     {
-        int x = _body[i].x;
-        int y = _body[i].y;
-        _body[i].x = y;
-        _body[i].y = x;
+        points[i].x = -_body[i].y;
+        points[i].y = _body[i].x;
     }
-    blocks(_body);
 }
 
 void Figure::blocks(POINT* points)

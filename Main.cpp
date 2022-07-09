@@ -67,22 +67,28 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	{
 	case WM_CREATE:
 		hdc = GetDC(hWnd);
-
 		hWndButton = MainWndAddWidgets(hWnd);
 
 		// init game logic
-		ui = new UIDrawer(hdc, hWnd, PIXEL_IN_BLOCK, SCREEN_WIDTH, SCREEN_HEIGHT);
-		tetris = new Tetris(*ui, SCREEN_WIDTH, SCREEN_HEIGHT, GAME_SPEED);
+		_speed = GAME_SPEED;
 
-		SetTimer(hWnd, TIMER_ID, GAME_SPEED, NULL);
+		ui = new UIDrawer(hdc, hWnd, PIXEL_IN_BLOCK, SCREEN_WIDTH, SCREEN_HEIGHT);
+		tetris = new Tetris(*ui, SCREEN_WIDTH, SCREEN_HEIGHT, _speed);
+
+		SetTimer(hWnd, TIMER_ID, _speed, NULL);
 
 		ReleaseDC(hWnd, hdc);
 		break;
 
 	case WM_TIMER:
-		newspeed  = tetris->timerUpdate();
-		KillTimer(hMainWnd, TIMER_ID);
-		SetTimer(hWnd, TIMER_ID, ChangeSpeed(newspeed), NULL);
+		_newSpeed = tetris->timerUpdate();
+
+		if (_newSpeed != _speed) 
+		{
+			_speed = _newSpeed;
+			KillTimer(hMainWnd, TIMER_ID);
+			SetTimer(hWnd, TIMER_ID, _speed, NULL);
+		}
 		break;
 
 	case WM_COMMAND:
@@ -147,12 +153,6 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	}
 }
 
-UINT ChangeSpeed(int newspeed)
-{
-	UINT gamespeed = newspeed;
-
-	return gamespeed;
-}
 HWND MainWndAddWidgets(HWND hWnd)
 {
 	int startButtonWIDTH = 70;

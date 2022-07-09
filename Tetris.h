@@ -13,7 +13,7 @@ public:
     void repaint();
 
     bool moveFigure(int x, int y);
-    bool rotateFigure();
+    void rotateFigure();
 
     void pause(bool paused);
     bool isPaused();

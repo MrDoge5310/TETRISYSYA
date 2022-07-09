@@ -33,45 +33,15 @@ void Tetris::restart()
     repaint();
 }
 
-void Tetris::keyPress(int key)
-{
-    if (key != VK_RETURN && _isPaused)
-        return;
-
-    switch (key)
-    {
-    case VK_UP:
-
-        clearPrevFigurePosition();
-        _currentFigure->changeRotation();
-        break;
-    case VK_DOWN:
-        moveFigure(0, -1);
-        break;
-    case VK_LEFT:
-        moveFigure(-1, 0);
-        break;
-    case VK_RIGHT:
-        moveFigure(1, 0);
-        break;
-    case VK_SPACE:
-        //rotate
-        break;
-    case VK_RETURN:
-        restart();
-        break;
-    }
-}
-
 int Tetris::timerUpdate()
 {
     if (_isPaused)
-        return 0;
+        return _currentSpeed;
 
     if (_isGameOver)
     {
         _ui.drawGameOver();
-        return 0;
+        return _currentSpeed;
     }
 
     if (_currentFigure == NULL)
@@ -89,7 +59,6 @@ int Tetris::timerUpdate()
         createNewFigure();
     }
     
-    // todo add time calculation
     repaint();
 
     return _currentSpeed;
@@ -181,11 +150,27 @@ bool Tetris::moveFigure(int x, int y)
     return putFigure(newX, newY);
 }
 
-bool Tetris::rotateFigure()
+void Tetris::rotateFigure()
 {
-    return true;
-}
+    Figure* tmp = _currentFigure;
 
+    // Figure movement if it need some space
+    int disX = max(_currentX + _currentFigure->width() - _width, 0);
+
+    clearPrevFigurePosition();
+
+    POINT blocks[FiguresSet::BLOCKS_NUMBER];
+    _currentFigure->changeRotation(blocks);
+    _currentFigure = new Figure(_currentFigure->color(), blocks);
+
+    // If rotation successfull
+    if (putFigure(_currentX - disX, _currentY))
+        return;
+
+    // Undo if not enought space
+    _currentFigure = tmp;
+    putFigure(_currentX, _currentY);
+}
 
 
 bool Tetris::CheckColisionBottom()

@@ -7,7 +7,7 @@ public:
 	Figure(COLORREF pieceColor, POINT* blocks);
 	~Figure();
 
-	void changeRotation(int rotationCount);
+	void changeRotation(POINT* points);
 	void blocks(POINT* points);
 
 	int bottom(POINT* points);
