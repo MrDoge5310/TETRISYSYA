@@ -7,9 +7,12 @@ public:
 	Figure(COLORREF pieceColor, POINT* blocks);
 	~Figure();
 
-	void changeRotation();
-	void blocks(POINT* apt);
-	int bottom(POINT* apt);
+	void changeRotation(int rotationCount);
+	void blocks(POINT* points);
+
+	int bottom(POINT* points);
+	int left(POINT* points);
+	int right(POINT* points);
 
 	COLORREF color();
 	int width();

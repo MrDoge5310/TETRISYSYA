@@ -109,7 +109,30 @@ LRESULT CALLBACK MainClassProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 		break;
 
 	case WM_KEYDOWN:
-		tetris->keyPress(wp);
+		if (wp != VK_RETURN && tetris->isPaused())
+			return DefWindowProc(hWnd, msg, wp, lp);
+
+		switch (wp)
+		{
+		case VK_UP:
+			tetris->rotateFigure();
+			break;
+		case VK_DOWN:
+			tetris->moveFigure(0, -1);
+			break;
+		case VK_LEFT:
+			tetris->moveFigure(-1, 0);
+			break;
+		case VK_RIGHT:
+			tetris->moveFigure(1, 0);
+			break;
+		case VK_SPACE:
+			tetris->rotateFigure();
+			break;
+		case VK_RETURN:
+			tetris->restart();
+			break;
+		}
 		break;
 
 	case WM_DESTROY:
@@ -137,7 +160,6 @@ HWND MainWndAddWidgets(HWND hWnd)
 
 	return CreateWindowA("button", "Pause",
 		WS_VISIBLE | WS_CHILD | BS_CENTER, 
-		
 		SCREEN_WIDTH * PIXEL_IN_BLOCK + 40,
 		SCREEN_HEIGHT * PIXEL_IN_BLOCK - 40,
 		startButtonWIDTH,

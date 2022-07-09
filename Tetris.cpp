@@ -156,12 +156,18 @@ void Tetris::createNewFigure()
 
 bool Tetris::moveFigure(int x, int y) 
 {
-    if (CheckColisionBottom())
+    if (y < 0 && CheckColisionBottom())
     {
         return false;
     }
-
-    // todo add chech colisions for left and right side
+    if (x < 0 && CheckColisionLeft())
+    {
+        return false;
+    }
+    if (x > 0 && CheckColisionRight())
+    {
+        return false;
+    }
 
     clearPrevFigurePosition();
 
@@ -174,6 +180,13 @@ bool Tetris::moveFigure(int x, int y)
 
     return putFigure(newX, newY);
 }
+
+bool Tetris::rotateFigure()
+{
+    return true;
+}
+
+
 
 bool Tetris::CheckColisionBottom()
 {
@@ -189,6 +202,48 @@ bool Tetris::CheckColisionBottom()
         my = _currentY + blocks[i].y;
 
         if (my < _height && (my == 0 || _board[mx][my - 1] != _black))
+            return true;
+    }
+    return false;
+}
+
+bool Tetris::CheckColisionLeft()
+{
+    POINT blocks[FiguresSet::BLOCKS_NUMBER];
+    int blocksCount = _currentFigure->left(blocks);
+
+    int mx = 0;
+    int my = 0;
+
+    for (int i = 0; i < blocksCount; i++)
+    {
+        mx = _currentX + blocks[i].x;
+        my = _currentY + blocks[i].y;
+
+        if (my > _height - 1)
+            continue;
+        if (mx == 0 || _board[mx - 1][my] != _black)
+            return true;
+    }
+    return false;
+}
+
+bool Tetris::CheckColisionRight()
+{
+    POINT blocks[FiguresSet::BLOCKS_NUMBER];
+    int blocksCount = _currentFigure->right(blocks);
+
+    int mx = 0;
+    int my = 0;
+
+    for (int i = 0; i < blocksCount; i++)
+    {
+        mx = _currentX + blocks[i].x;
+        my = _currentY + blocks[i].y;
+
+        if (my > _height - 1)
+            continue;
+        if (mx == _width - 1 || _board[mx + 1][my] != _black)
             return true;
     }
     return false;
@@ -257,7 +312,6 @@ void Tetris::clearPrevFigurePosition()
 
 int  Tetris::clearFilledRows()
 {
-
     bool isComplete;
     int cleardRaws = 0;
 

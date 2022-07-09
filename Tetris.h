@@ -12,7 +12,9 @@ public:
     int timerUpdate();
     void repaint();
 
-    void keyPress(int key);
+    bool moveFigure(int x, int y);
+    bool rotateFigure();
+
     void pause(bool paused);
     bool isPaused();
 
@@ -28,10 +30,12 @@ private:
     void drawBoard();
 
     void createNewFigure();
-    bool moveFigure(int x, int y);
+    
     bool putFigure(int x, int y);
     bool putToTop();
     bool CheckColisionBottom();
+    bool CheckColisionLeft();
+    bool CheckColisionRight();
     void clearPrevFigurePosition();
 
     int clearFilledRows();

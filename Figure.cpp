@@ -65,6 +65,44 @@ int Figure::bottom(POINT* points)
     return count;
 }
 
+int Figure::left(POINT* points)
+{
+    int i = 0;
+    for (int y = 0; y < height(); y++)
+    {
+        for (int x = 0; x < height(); x++)
+        {
+            if (hasPointAt(x, y))
+            {
+                points[i].x = x;
+                points[i].y = y;
+                i++;
+                break;
+            }
+        }
+    }
+    return i;
+}
+
+int Figure::right(POINT* points)
+{
+    int i = 0;
+    for (int y = 0; y < height(); y++)
+    {
+        for (int x = width() - 1; x >= 0; x--)
+        {
+            if (hasPointAt(x, y))
+            {
+                points[i].x = x;
+                points[i].y = y;
+                i++;
+                break;
+            }
+        }
+    }
+    return i;
+}
+
 COLORREF Figure::color()
 {
     return _color;
