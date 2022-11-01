@@ -9,6 +9,7 @@ def checkPalindrome(number: object) -> object:
 
 
 num = input("Input a number: ")
+
 if not num.isdigit():
     exit("wrong input")
 else:
